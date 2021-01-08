@@ -1,44 +1,37 @@
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 
-class SearchBar extends Component {
-
-  state = {term: ''}
-
-  onInputChange = (event) => {
+const SearchBar = ({onTermSubmit}) => {
+  const [term, setTerm] = useState('')
+  const onInputChange = (event) => {
     event.preventDefault()
     console.log(`input: `, event.target.value)
-    this.setState({term: event.target.value})
+    setTerm(event.target.value)
   }
 
-  onFormSubmit = event => {
+  const onSubmit = event => {
     event.preventDefault()
     // request to the video API
-    if (this.state.term) {
-      console.log(`calling videoApi.get(this.state.term): `, this.state.term);
-      this.props.onTermSubmit(this.state.term);
-    } else {
-      console.log(`invalid search term : `, this.state.term)
-    }
+    console.log(`calling videoApi.get(term): `, term)
+    onTermSubmit(term)
   }
 
-  render() {
-    return (
-      <div className={"searchbar ui segment"}>
-        <form action="#"
-              className="ui form"
-              onSubmit={this.onFormSubmit}
-        >
-          <div className="field">
-            <label htmlFor="search">Vid Search</label>
-            <input type="text"
-                   onChange={this.onInputChange}
-                   value={this.state.term}
-            />
-          </div>
-        </form>
-      </div>
-    );
-  }
+  return (
+    <div className={"searchbar ui segment"}>
+      <form action="#"
+            className="ui form"
+            onSubmit={onSubmit}
+      >
+        <div className="field">
+          <label htmlFor="search">Vid Search</label>
+          <input type="text"
+                 onChange={onInputChange}
+                 value={term}
+          />
+        </div>
+      </form>
+    </div>
+  );
+
 }
 
 export default SearchBar;
