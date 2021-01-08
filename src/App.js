@@ -7,33 +7,17 @@ import {Component} from "react";
 import youtubeApi from "./api/youtubeApi";
 import VideoList from "./components/VideoList";
 import VideoDetail from "./components/VideoDetail";
+import useVideos from "./hooks/useVideos";
 
-const YOUTUBE_API_KEY = process.env.REACT_APP_YOUTUBE_API_KEY
 
 const App = () => {
-
-  const [videos, setVideos] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState(null);
 
-  useEffect(() => {
-    setTimeout(() => {
-      onTermSubmit('cats')  // default search
-    }, 1000)
-  }, [])
+  const [videos, search] = useVideos('cats')
 
-  const onTermSubmit = async term => {
-    const response = await youtubeApi.get("/search", {
-      params: {
-        q: term,
-        part: "snippet",
-        maxResults: 5,
-        type: 'video',
-        key: YOUTUBE_API_KEY
-      }
-    });
-    setVideos(response.data.items)
-    setSelectedVideo(response.data.items[0])
-  }
+  useEffect(() => {
+    setSelectedVideo(videos[0])
+  }, [videos])
 
   return (
     <div className="App">
@@ -41,7 +25,7 @@ const App = () => {
         <img src={logo} className="App-logo" alt="logo"/>
         Find Vids!
       </header>
-      <SearchBar onTermSubmit={onTermSubmit}/>
+      <SearchBar onTermSubmit={search}/>
       <div className="ui grid">
         <div className="ui row">
           <div className="eleven wide column">
