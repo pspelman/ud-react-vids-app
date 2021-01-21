@@ -20,7 +20,7 @@ const App = () => {
   }, [videos])
 
   return (
-    <div className="App">
+    <div className="ui container">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo"/>
         Find Vids!
@@ -42,5 +42,11 @@ const App = () => {
     </div>
   )
 }
+//
+// <VideosListAnimated videos={videos}
+//                     onVideoSelect={setSelectedVideo}
+// />
+//
+
 
 export default App;

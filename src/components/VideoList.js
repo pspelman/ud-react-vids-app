@@ -1,16 +1,29 @@
 import React, {Component} from 'react'
 import {VideoCard} from "./VideoCard"
 import "./VideoCard.css"
+import {CSSTransition, TransitionGroup} from "react-transition-group";
 
 // const watchStub = `https://youtube.com/watch?v=`
 const VideoList = (({videos, onVideoSelect}) => {
+
   return (
-    videos.map((video) => {
-      return <VideoCard key={video.etag}
-                        video={video}
-                        onVideoSelect={onVideoSelect}
-      />
-    })
+    <TransitionGroup>
+      {videos.map((video) => {
+        return (
+          <CSSTransition
+            key={video.etag}
+            timeout={500}
+            classNames={"video"}
+          >
+            <VideoCard
+              video={video}
+              onVideoSelect={onVideoSelect}
+            />
+          </CSSTransition>
+        )
+      })
+      }
+    </TransitionGroup>
   )
 })
 // class VideoList extends Component {
